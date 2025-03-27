@@ -21,8 +21,8 @@ export class MongoDatabase {
             //console.log('mongo connected');
             return true
         } catch (error) {
-          //  console.log('mongo connection error: ', error);
-            throw  Error('Error connecting to mongo');
+          console.log('mongo connection error: ', error);
+            //throw  Error('Error connecting to mongo', error);
         }
 
 

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { AuthRoutes } from './auth/routes';
 
 
 
@@ -8,9 +9,7 @@ export class AppRoutes{
 
         const router = Router();
 
-        router.get('/hello', (req, res) => {
-            res.json({ message: 'Hello World' });
-        });
+        router.use('/api/auth', AuthRoutes.routes );
 
         return router;
 
