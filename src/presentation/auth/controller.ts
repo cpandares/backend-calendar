@@ -14,11 +14,11 @@ export class AuthController {
       const [error, registerDto] = RegisterUserDto.create(req.body);
       if (error) return res.status(400).json({ message: error });
 
-      this.authService.registerUser(registerDto!).then(response => {
+      this.authService.registerUser(registerDto!)
+      .then(response => {
          if (response instanceof Error) return res.status(400).json({ message: response.message });
          res.status(201).json(response);
-      }).catch(error => {
-        
+      }).catch(error => {        
          res.status(500).json({ message: 'Internal Server Error' });
       });
 

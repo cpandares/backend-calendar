@@ -4,12 +4,6 @@ import { Router } from 'express';
 import { AuthController } from './controller';
 import { AuthServices } from '../services/auth/AuthServices';
 
-
-
-
-
-
-
 export class AuthRoutes {
 
 

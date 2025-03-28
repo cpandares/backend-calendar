@@ -1,5 +1,5 @@
 import { bcryptAdapter } from "../../../config";
-import { generateToken,jwtVerify, renewToken } from "../../../config/jwt.adapter";
+import { generateToken, jwtVerify, renewToken } from "../../../config/jwt.adapter";
 import { UserModel } from "../../../data";
 import { LoginUserDto, RegisterUserDto } from "../../../domain";
 
@@ -66,6 +66,15 @@ export class AuthServices {
         return { token: decoded };
 
 
+    }
+
+    public async getUserFromToken( token:string ){
+        const decoded = await jwtVerify<{email:string}>( token );
+        if (!decoded || !decoded.email) return new Error('Invalid token');
+        const { email } = decoded;  
+        if(!email) return new Error('Invalid token');
+
+        return email;
     }
 
 }
