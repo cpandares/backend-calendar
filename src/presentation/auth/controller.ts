@@ -7,9 +7,7 @@ export class AuthController {
 
    constructor(
       public readonly authService: AuthServices
-   ) {
-
-   }
+   ) {}
 
 
    register = (req: Request, res: Response) => {
@@ -20,7 +18,7 @@ export class AuthController {
          if (response instanceof Error) return res.status(400).json({ message: response.message });
          res.status(201).json(response);
       }).catch(error => {
-         console.log(error);
+        
          res.status(500).json({ message: 'Internal Server Error' });
       });
 
@@ -34,9 +32,26 @@ export class AuthController {
          if (response instanceof Error) return res.status(400).json({ message: response.message });
          res.status(200).json(response);
       }).catch(error => {
-         console.log(error);
+         
          res.status(500).json({ message: 'Internal Server Error' });
       });
 
    }
+
+
+   renewToken = (req: Request, res: Response) => {
+      const token = req.header('x-token');
+      if (!token) return res.status(400).json({ message: 'Token is required' });
+
+      this.authService.renewToken(token).then(response => {
+         if (response instanceof Error) return res.status(400).json({ message: response.message });
+         res.status(200).json(response);
+      }).catch(error => {
+        
+         res.status(500).json({ message: 'Internal Server Error' });
+      });
+
+   }
+
+
 }

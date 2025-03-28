@@ -1,5 +1,5 @@
 import { bcryptAdapter } from "../../../config";
-import { jwtAdapter } from "../../../config/jwt.adapter";
+import { generateToken,jwtVerify, renewToken } from "../../../config/jwt.adapter";
 import { UserModel } from "../../../data";
 import { LoginUserDto, RegisterUserDto } from "../../../domain";
 
@@ -24,8 +24,13 @@ export class AuthServices {
 
              await user.save();
             //TODO jwt
+            const token = await generateToken( dto.email );
+            if(!token){
+                return new Error('Internal Server Error');
+            }
             return { 
-                user
+                user,
+                token
                 
              };
             
@@ -46,9 +51,20 @@ export class AuthServices {
 
         let { password, ...userWithoutPassword } = user.toObject();
         //TODO jwt
-        const token = await jwtAdapter( userWithoutPassword.email );
+        const token = await generateToken( userWithoutPassword.email );
        
         return { user: userWithoutPassword, token };
+
+    }
+
+
+    public async renewToken( token:string ){
+
+        const decoded = await renewToken( token );
+        if(decoded instanceof Error) return decoded;
+        
+        return { token: decoded };
+
 
     }
 

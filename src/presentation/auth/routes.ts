@@ -16,13 +16,13 @@ export class AuthRoutes {
   static get routes(): Router {
 
     const router = Router();
-   const authServices = new AuthServices();
+    const authServices = new AuthServices();
     const authController = new AuthController(authServices);
 
     // Definir las rutas
      router.post('/register', authController.register );
      router.post('/login', authController.login );
-     
+     router.get('/renewToken', authController.renewToken );
 
      
 
