@@ -63,7 +63,16 @@ export class AuthServices {
         const decoded = await renewToken( token );
         if(decoded instanceof Error) return decoded;
         
-        return { token: decoded };
+       const user = await this.getUserFromToken( token );
+        if(user instanceof Error) return user;
+        const userId = await UserModel.findOne({ email: user });
+        if(!userId) return new Error('User not found');
+        if(userId instanceof Error) return userId;
+        
+        return { 
+                token: decoded, 
+                user: userId 
+            };
 
 
     }
